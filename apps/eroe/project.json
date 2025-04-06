@@ -1,0 +1,92 @@
+{
+  "name": "eroe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/eroe/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/eroe",
+        "index": "apps/eroe/src/index.html",
+        "baseHref": "/",
+        "main": "apps/eroe/src/main.ts",
+        "tsConfig": "apps/eroe/tsconfig.app.json",
+        "assets": ["apps/eroe/src/favicon.ico", "apps/eroe/src/assets"],
+        "styles": ["apps/eroe/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "apps/eroe/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/eroe/src/environments/environment.ts",
+              "with": "apps/eroe/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "webpackConfig": "apps/eroe/webpack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "eroe:build",
+        "hmr": true,
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "eroe:build:development"
+        },
+        "production": {
+          "buildTarget": "eroe:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/react:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "eroe:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "eroe:serve:development"
+        },
+        "production": {
+          "serveTarget": "eroe:serve:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/eroe/jest.config.ts"
+      }
+    }
+  }
+}

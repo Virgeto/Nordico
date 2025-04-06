@@ -1,0 +1,24 @@
+/*
+ * Replace this with your own classes
+ *
+ * e.g.
+ * .container {
+ * }
+*/
+button {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(212 212 212);
+  background-color: rgb(232 232 232);
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(245 245 245);
+  }
+  &:active {
+    background-color: rgb(232 232 232);
+  }
+}
